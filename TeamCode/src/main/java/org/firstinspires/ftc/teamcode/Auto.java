@@ -56,7 +56,7 @@ public class Auto extends CustomLinearOp {
     }
 
     private void performNearBasketActions() {
-        telemetry.addLine("Starting Near Basket Actions");
+        telemetry.addLine("Starting Near Basket Action");
         telemetry.update();
 
         // Strafe left 48.0 inches
@@ -74,56 +74,55 @@ public class Auto extends CustomLinearOp {
         WHEELS.driveDistance(10.0, 0.0);
         autoSleep();
 
-        telemetry.addLine("Finished Near Basket Actions");
+        telemetry.addLine("Finished Near Basket Action");
+        telemetry.update();
+
+        // Step 3: Strafe left 72 inches
+        //WHEELS.driveDistance(-72, 0); // Negative X for strafing left
+        //autoSleep();
+
+        // Step 4: Lift arm 45 degrees again
+        //ARM.rotateToAngle(ARM.getRotationDegrees() + 45);
+        //autoSleep();
+
+        // Step 5: Reverse the claw intake to score
+        //CLAW.ejectIntake();
+        //autoSleep();
+
+        // Step 6: Rotate servo back
+        //CLAW.stopIntake(); // Not too sure if this is what I need to do but this resets servo
+        //autoSleep();
+
+        // Step 7: Bring arm down 90 degrees
+        //ARM.rotateToAngle(ARM.getRotationDegrees() - 90);
+        //autoSleep();
+
+        // Step 8: Strafe right 65 inches
+        //WHEELS.driveDistance(65, 0); // Postive X for strafing right
+        //autoSleep();
+
+        // Step 9: Drive forward 72 inches
+        //WHEELS.driveDistance(72); // Positive Y for forward
+        //autoSleep();
+
+        // Step 10: Turn right 90 degrees
+        //WHEELS.turn(90);
+        //autoSleep();
+
+        // Step 11: Lift arm 35 degrees
+        //ARM.rotateToAngle( ARM.getRotationDegrees() + 35);
+        //autoSleep();
+
+        telemetry.addLine("Finished Near Basket Action");
         telemetry.update();
     }
 
     private void performFarBasketActions() {
-        telemetry.addLine("Starting Far Basket Actions");
+        telemetry.addLine("Starting Far Basket Action");
         telemetry.update();
 
-        // Step 4: Strafe right 24
-        WHEELS.driveDistance(24, 0); // Positive X for strafing right
-        autoSleep();
-
-        // Drive 48 inches forward
-        WHEELS.driveDistance(48);
-        autoSleep();
-
-        // Turn around 180 degrees
-        WHEELS.turn(180);
-        autoSleep();
-
-        // Strafe 5 inches left
-        WHEELS.driveDistance(-5, 0);
-        autoSleep();
-
-        // Drive 36 inches forward
-        WHEELS.driveDistance(36);
-        autoSleep();
-
-        // Drive 36 inches backward
-        WHEELS.driveDistance(-36);
-        autoSleep();
-
-        // Drive 5 inches left
-        WHEELS.driveDistance(-5, 0);
-        autoSleep();
-
-        // Drive 36 inches forward
-        WHEELS.driveDistance(36);
-        autoSleep();
-
-        // Drive 36 inches back
-        WHEELS.driveDistance(-36);
-        autoSleep();
-
-        // Strafe 5 inches left
-        WHEELS.driveDistance(-5, 0);
-        autoSleep();
-
-        // Drive 36 inches forward
-        WHEELS.driveDistance(36);
+        // Step 4: Strafe right 64 inches
+        WHEELS.driveDistance(64, 0); // Positive X for strafing right
         autoSleep();
 
         telemetry.addLine("Finished Far Basket Actions");
