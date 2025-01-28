@@ -68,9 +68,10 @@ the [Road Runner Docs](https://rr.brott.dev/docs/v1-0/installation/).
 To update RoadRunner in this repository, type
 
 ```
-git clone https://github.com/acmerobotics/road-runner-quickstart.git
-mv road-runner-quickstart/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/* TeamCode/src/main/java/org/firstinspires/ftc/teamcode/
-rm -r -f road-runner-quickstart
+git clone https://github.com/acmerobotics/road-runner-quickstart.git ../road-runner-quickstart
+find ../road-runner-quickstart/ -name "*.md" -type f -delete
+cp -rf ../road-runner-quickstart/* ./
+rm -rf ../road-runner-quickstart
 ```
 
 # TeamCode

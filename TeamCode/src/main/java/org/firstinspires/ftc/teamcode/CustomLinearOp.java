@@ -5,13 +5,10 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareDevice;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.teamcode.hardwareSystems.DoubleServoIntakeClaw;
-import org.firstinspires.ftc.teamcode.hardwareSystems.FoldingArm;
-import org.firstinspires.ftc.teamcode.hardwareSystems.MecanumWheels;
-import org.firstinspires.ftc.teamcode.hardwareSystems.MotorType;
+import org.firstinspires.ftc.teamcode.hardwareSystems.Arm;
+import org.firstinspires.ftc.teamcode.hardwareSystems.Claw;
 import org.firstinspires.ftc.teamcode.hardwareSystems.Webcam;
 import org.firstinspires.ftc.teamcode.hardwareSystems.Wheels;
 
@@ -30,9 +27,9 @@ public class CustomLinearOp extends LinearOpMode {
 
     /* Robot systems */
 
-    protected MecanumWheels WHEELS;
-    protected FoldingArm ARM;
-    protected DoubleServoIntakeClaw CLAW;
+    protected Wheels WHEELS;
+    protected Arm ARM;
+    protected Claw CLAW;
     protected Webcam WEBCAM;
 
     /**
@@ -67,123 +64,6 @@ public class CustomLinearOp extends LinearOpMode {
         }
 
         return crServos;
-    }
-
-    /**
-     * Initiates all hardware needed for the wheels.
-     * <br>
-     * <strong>When starting a new season, change the return type from `Wheels` to the desired return type.</strong>
-     */
-    private MecanumWheels initWheels() {
-        // Prevent multiple instantiation.
-        if (WHEELS != null) {
-            return WHEELS;
-        }
-
-        /*
-         * Define wheels system hardware here.
-         * e.g. hardwareMap.get(DcMotor.class, "exampleMotor");
-         */
-        MecanumWheels.MotorSet motorSet = new MecanumWheels.MotorSet(
-                hardwareMap.get(DcMotor.class, "frontLeftWheel"),
-                hardwareMap.get(DcMotor.class, "frontRightWheel"),
-                hardwareMap.get(DcMotor.class, "backLeftWheel"),
-                hardwareMap.get(DcMotor.class, "backRightWheel")
-        );
-
-        // Approximately measured from the CAD model in inches
-        double wheelCircumference = 4.0 * Math.PI;
-        double gearRatio = 1.0;
-        double ticksPerInch = MotorType.TETRIX_TORQUENADO.getTicksPerRotation() * gearRatio / wheelCircumference;
-        // Approximately measured from CAD
-        Wheels.WheelDistances wheelDistances = new Wheels.WheelDistances(
-                8.5,
-                14.5
-        );
-
-        return new MecanumWheels(motorSet, wheelDistances, ticksPerInch);
-    }
-
-    /**
-     * Initiate all hardware needed for the arm.
-     * <strong>When starting a new season, change the return type from `Arm` to the desired return type.</strong>
-     */
-    private FoldingArm initArm() {
-        // Prevent multiple instantiation.
-        if (ARM != null) {
-            return ARM;
-        }
-
-        /*
-         * Define arm hardware here.
-         * e.g. hardwareMap.get(DcMotor.class, "exampleMotor");
-         */
-        FoldingArm.MotorSet motorSet = new FoldingArm.MotorSet(
-                hardwareMap.get(DcMotor.class, "rotationMotor"),
-                hardwareMap.get(DcMotor.class, "foldingMotor")
-        );
-
-        double rotationGearRatio = 32.0 / 16.0; // 120.0 / 40.0;
-        FoldingArm.RotationRange rotationRange = new FoldingArm.RotationRange(
-                Integer.MIN_VALUE,
-                Integer.MAX_VALUE, // 1080
-                MotorType.TETRIX_TORQUENADO.getTicksPerRotation()
-                        / 360.0
-                        * rotationGearRatio
-        );
-
-        double foldingGearRatio = 120.0 / 40.0;
-        FoldingArm.FoldingRange foldingRange = new FoldingArm.FoldingRange(
-                Integer.MIN_VALUE,
-                Integer.MAX_VALUE,
-                MotorType.TETRIX_TORQUENADO.getTicksPerRotation()
-                        / 360.0
-                        * foldingGearRatio
-        );
-
-        return new FoldingArm(motorSet, rotationRange, foldingRange);
-    }
-
-    /**
-     * Initiate all hardware needed for the claw.
-     * <strong>When starting a new season, change the return type from `Claw` to the desired return type.</strong>
-     */
-    public DoubleServoIntakeClaw initClaw() {
-        // Prevent multiple instantiation.
-        if (CLAW != null) {
-            return null;
-        }
-
-        /*
-         * Define claw hardware here.
-         * e.g. hardwareMap.get(Servo.class, "exampleServo");
-         */
-        return new DoubleServoIntakeClaw(
-                hardwareMap.get(Servo.class, "rollServo"),
-                null,
-                null,
-                hardwareMap.get(CRServo.class, "leftIntakeServo"),
-                hardwareMap.get(CRServo.class, "rightIntakeServo")
-        );
-    }
-
-    /**
-     * Initiate the webcam.
-     *
-     * @return The `Webcam` object instantiated by this method.
-     */
-    public Webcam initWebcam(int cameraMonitorViewId) {
-        int[] resolution = {160, 120};
-
-        return new Webcam(
-                hardwareMap.get(WebcamName.class, "Webcam 1"),
-                resolution,
-                new double[]{
-                        12,
-                        -2,
-                        12
-                }
-        );
     }
 
     /**
@@ -233,6 +113,120 @@ public class CustomLinearOp extends LinearOpMode {
     }
 
     /**
+     * Initiates all hardware needed for the wheels.
+     * <br>
+     * <strong>When starting a new season, change the return type from `Wheels` to the desired return type.</strong>
+     */
+    private void initWheels() {
+        // Prevent multiple instantiation.
+        if (WHEELS != null) {
+            return;
+        }
+
+        // TODO: Replace `Wheels()` with a constructor of the desired `Wheels` subclass(e.g. `MecanumWheels`)
+        //  You might want to look at the class and code from previous years for reference.
+        WHEELS = new Wheels();
+    }
+
+    /**
+     * Initiate all hardware needed for the arm.
+     * <strong>When starting a new season, change the return type from `Arm` to the desired return type.</strong>
+     */
+    private void initArm() {
+        // Prevent multiple instantiation.
+        if (ARM != null) {
+            return;
+        }
+
+        // TODO: Replace `Arm()` with a constructor of the desired `Arm` subclass(e.g. `FoldingArm`)
+        //  You might want to look at the class and code from previous years for reference.
+        ARM = new Arm();
+    }
+
+    /**
+     * Initiate all hardware needed for the claw.
+     * <strong>When starting a new season, change the return type from `Claw` to the desired return type.</strong>
+     */
+    public void initClaw() {
+        // Prevent multiple instantiation.
+        if (CLAW != null) {
+            return;
+        }
+
+        // TODO: Replace `Claw()` with a constructor of the desired `Claw` subclass(e.g. `SingleServoIntakeClaw`)
+        //  You might want to look at the class and code from previous years for reference.
+        CLAW = new Claw(
+                null, // TODO: Replace with the appropriate servo object, e.g. `hardwareMap.get(Servo.class, "exampleServo");`
+                null, // TODO: Replace with the appropriate servo object, e.g. `hardwareMap.get(Servo.class, "exampleServo");`
+                null // TODO: Replace with the appropriate servo object, e.g. `hardwareMap.get(Servo.class, "exampleServo");`
+        );
+    }
+
+    /**
+     * Initiate the webcam.
+     *
+     * @return The `Webcam` object instantiated by this method.
+     */
+    public void initWebcam(int cameraMonitorViewId) {
+        // TODO: This is the lowest resolution(width, height) supported by a Logitech webcam.
+        //  Adjust as necessary.
+        int[] resolution = {160, 120};
+
+        // TODO: This adjusts the pose to account for where the camera is positioned.
+        //  Probably best to measure from the intake to the camera.
+        //  Measured in inches.
+        double[] poseAdjust = new double[]{
+                0,
+                0,
+                0
+        };
+
+        WEBCAM = new Webcam(
+                hardwareMap.get(WebcamName.class, "Webcam 1"), // Default camera name
+                resolution,
+                poseAdjust
+        );
+    }
+
+    /**
+     * Retrieve the contents of the Auto Settings file as a `String`,
+     * or `null` if there is nothing to read.
+     *
+     * @param autoSettingsFile A String representing the file path to be read.
+     * @return A String representation of the setting file's contents.
+     */
+    public String readAutoSettingsFile(String autoSettingsFile) {
+        // Try to read the auto settings
+        try (BufferedReader reader = new BufferedReader(new FileReader(autoSettingsFile))) {
+            // Read first line.
+            String data = reader.readLine();
+            telemetry.addData("Starting position: ", data);
+
+            return data;
+
+        } catch (IOException | NullPointerException e) {
+            telemetry.addLine(
+                    (e instanceof IOException)
+                            ? "ERROR: FAILED TO READ AUTO_SETTINGS FILE!"
+                            : "The position file is blank."
+            );
+            telemetry.addLine("Defaulting to RED NEAR");
+
+            return null;
+        }
+    }
+
+    /**
+     * Overloads {@link CustomLinearOp#readAutoSettingsFile(String)}.
+     * {@code autoSettingsFile} defaults to {@link AutoSettings#getPositionFile()}.
+     *
+     * @see CustomLinearOp#readAutoSettingsFile(String)
+     */
+    public String readAutoSettingsFile() {
+        return readAutoSettingsFile(AutoSettings.getPositionFile());
+    }
+
+    /**
      * Run automatically after pressing "Init."
      * Initiate all the robot's hardware.
      * Wait until the driver presses "Start."
@@ -241,44 +235,25 @@ public class CustomLinearOp extends LinearOpMode {
     public void runOpMode() {
         autoSleepEnabled = true;
 
-        WHEELS = initWheels();
-        ARM = initArm();
-        CLAW = initClaw();
+        initWheels();
+        initArm();
+        initClaw();
 
         /*
          * Get camera ID to stream.
-         * Currently not working.
+         * TODO: Currently not working.
          */
-        /*
-            int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
-                    "cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName()
-            );
-            telemetry.addData("cameraMonitorViewId", cameraMonitorViewId);
-            telemetry.update();
-            WEBCAM = initWebcam(cameraMonitorViewId);
-        */
+        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
+                "cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName()
+        );
+        telemetry.addData("cameraMonitorViewId", cameraMonitorViewId);
+        telemetry.update();
+        initWebcam(cameraMonitorViewId);
 
-        // Try to read the start position
-        try (BufferedReader reader = new BufferedReader(new FileReader(AutoSettings.getPositionFile()))) {
-            // Read first line.
-            String data = reader.readLine();
-            telemetry.addData("Starting position: ", data);
-
-            // Extract the data values.
-            ALLIANCE_COLOR = AllianceColor.valueOf(data.split(",")[0]);
-            TEAM_SIDE = TeamSide.valueOf(data.split(",")[1]);
-
-        } catch (IOException | NullPointerException e) {
-            telemetry.addLine(
-                    (e instanceof IOException)
-                            ? "ERROR: FAILED TO READ ROBOT POSITION FROM STORAGE FILE!"
-                            : "The position file is blank."
-            );
-
-            telemetry.addLine("Defaulting to RED NEAR");
-            ALLIANCE_COLOR = AllianceColor.RED;
-            TEAM_SIDE = TeamSide.NEAR;
-        }
+        // Try to read the auto settings
+        String autoSettings = readAutoSettingsFile(AutoSettings.getPositionFile());
+        ALLIANCE_COLOR = autoSettings != null ? AllianceColor.valueOf(autoSettings.split(",")[0]) : AllianceColor.RED;
+        TEAM_SIDE = autoSettings != null ? TeamSide.valueOf(autoSettings.split(",")[1]) : TeamSide.NEAR;
 
         // Set the camera color.
         /*
