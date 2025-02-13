@@ -57,7 +57,7 @@ public final class MecanumDrive {
         // TODO: fill in these values based on
         //   see https://ftc-docs.firstinspires.org/en/latest/programming_resources/imu/imu.html?highlight=imu#physical-hub-mounting
         public RevHubOrientationOnRobot.LogoFacingDirection logoFacingDirection =
-                RevHubOrientationOnRobot.LogoFacingDirection.LEFT;
+                RevHubOrientationOnRobot.LogoFacingDirection.RIGHT;
         public RevHubOrientationOnRobot.UsbFacingDirection usbFacingDirection =
                 RevHubOrientationOnRobot.UsbFacingDirection.UP;
 
@@ -228,8 +228,8 @@ public final class MecanumDrive {
 
         // TODO: make sure your config has motors with these names (or change them)
         //   see https://ftc-docs.firstinspires.org/en/latest/hardware_and_software_configuration/configuring/index.html
-        leftFront = hardwareMap.get(DcMotorEx.class, "frontLeftWheel");
-        leftBack = hardwareMap.get(DcMotorEx.class, "backLeftWheel");
+        leftFront = hardwareMap.get(DcMotorEx.class, "backLeftWheel");
+        leftBack = hardwareMap.get(DcMotorEx.class, "frontLeftWheel");
         rightBack = hardwareMap.get(DcMotorEx.class, "backRightWheel");
         rightFront = hardwareMap.get(DcMotorEx.class, "frontRightWheel");
 
