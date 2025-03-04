@@ -1,20 +1,35 @@
 # Overview
 
-This repository is a template for our FtcRobotControllers.
+This repository is a template for our `FtcRobotController`s.
 It is a fork of FTC's
 official [FtcRobotController](https://github.com/FIRST-Tech-Challenge/FtcRobotController.git).
 Please feel free to modify this template as necessary or even abandon it altogether.
-This template is meant as a gift from the previous programmers to the new programmers.
+This template is meant to be a gift from the previous programmers to the new programmers.
 What you do with it is up to you.
-However, this template is meant for general code to be reused across seasons, so if you do use it,
-please refrain from putting anything year specific into this template
+
+However, this template is meant for general code to be reused across seasons, 
+so if you do use it, please refrain from putting anything year specific into this template
 (e.g. motor names or autonomous commands).
 
-# Getting started
+# Creating a new repo
 
-To create new repositories using this one, go to GitHub and and create a new repository with
-chsRobotix as the owner. Then,
-under "Repository template" select "chsRobotix/TemplateRobotController." By default, GitHub does not
+> [!Important]
+> Only organization owners have the privileges to delete repos owned by chsRobotix.
+> Before creating a repo under chsRobotix, consider if it is necessary.
+> If not, create it under your own account.
+
+1. Create a new repo
+2. Under "Repository template", select "chsRobotix/TemplateRobotController"
+3. Under "Owner", select "chsRobotix"
+4. Name the repository. Preferably, the format for naming the repository should be "{starting year}-{season name in `kebab-case`}"
+5. If you desire, add a short description, but it is probably unnecessary.
+6. Click "Public" to set the repo's visibility.
+7. Click "Create Repository"
+
+Congrats! You have successfully created a repository!
+
+# Pulling from template
+By default, GitHub does not
 allow users to pull from a template,
 which complicates updating the new repository if the template changes.
 To pull from the template, type
@@ -24,13 +39,11 @@ git remote add template https://github.com/chsRobotix/TemplateRobotController.gi
 git pull template main
 ```
 
-> [!Warning]
-> Before you pull changes from this template into a fork, ensure that the new changes would not
+> [!Caution]
+> Before you pull changes from this template, ensure that the new changes would not
 > break the current code.
-
-It is suggested to name the new repo in the format of "{starting year}-{ending year}{season name}."
-After creating the new repository,
-update the README.md accordingly.
+> It is best to pull the changes from `template` into a branch
+> and then merge it into the `main` branch.
 
 # Updating with FTC's FtcRobotController
 
