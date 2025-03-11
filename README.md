@@ -7,7 +7,7 @@ Please feel free to modify this template as necessary or even abandon it altoget
 This template is meant to be a gift from the previous programmers to the new programmers.
 What you do with it is up to you.
 
-However, this template is meant for general code to be reused across seasons, 
+However, this template is meant for general code to be reused across seasons,
 so if you do use it, please refrain from putting anything year specific into this template
 (e.g. motor names or autonomous commands).
 
@@ -21,7 +21,8 @@ so if you do use it, please refrain from putting anything year specific into thi
 1. Create a new repo
 2. Under "Repository template", select "chsRobotix/TemplateRobotController"
 3. Under "Owner", select "chsRobotix"
-4. Name the repository. Preferably, the format for naming the repository should be "{starting year}-{season name in `kebab-case`}"
+4. Name the repository. Preferably, the format for naming the repository should be "{starting
+   year}-{season name in `kebab-case`}"
 5. If you desire, add a short description, but it is probably unnecessary.
 6. Click "Public" to set the repo's visibility.
 7. Click "Create Repository"
@@ -29,6 +30,7 @@ so if you do use it, please refrain from putting anything year specific into thi
 Congrats! You have successfully created a repository!
 
 # Pulling from template
+
 By default, GitHub does not
 allow users to pull from a template,
 which complicates updating the new repository if the template changes.
@@ -65,6 +67,70 @@ Our programs use [RoadRunner](https://github.com/acmerobotics/road-runner.git), 
 library for FTC.
 For more details look at [Learn Road Runner](https://learnroadrunner.com/introduction.html) and
 the [Road Runner Docs](https://rr.brott.dev/docs/v1-0/installation/).
+
+## Tuning RoadRunner
+
+The following is copied from the [Road Runner Docs](https://rr.brott.dev/docs/v1-0/tuning/).
+
+1. Open either MecanumDrive or TankDrive depending on your bot.
+2. Set the logo and USB direction of your IMU using the instructions on this page.
+3. In TuningOpModes, set the DRIVE_CLASS variable to the drive class you’re using.
+4. Then specify how the robot should track its position. There are a few built-in localizers:
+    - Drive encoders: This is the default. The IMU will also be used on mecanum to get better
+      heading.
+    - Two (dead) wheel: Change the right-hand-side of localizer =   (mecanum, tank) to new
+      TwoDeadWheelLocalizer(hardwareMap, lazyImu.get(), PARAMS.inPerTick, pose). The code expects
+      the parallel, forward-pointing encoder to be named "par" and the perpendicular one to be
+      named "perp".
+    - Three (dead) wheel: Change the right-hand-side of localizer =   (mecanum, tank) to new
+      ThreeDeadWheelLocalizer(hardwareMap, PARAMS.inPerTick, pose). The code expects the two
+      parallel encoders to be named "par0" and "par1" and the perpendicular one to be named "perp".
+    - Pinpoint Odometry Computer: Change the right-hand-side of localizer =   (mecanum, tank) to new
+      PinpointLocalizer(hardwareMap, PARAMS.inPerTick, pose). The code expects a Pinpoint device to
+      be configured with name "pinpoint". Tuning for a Pinpoint device is the same as tuning for two
+      dead wheels.
+5. Now check that the motors spin in the right direction. Positive power on all wheels should move
+   the robot forward. And if you’re using drive encoders, the ticks recorded should increase in a
+   positive direction.
+
+Those with mecanum drives should use MecanumDirectionDebugger to make sure all the directions are
+correct. The op mode uses the following button mappings:
+
+/**
+
+  * Xbox/PS4 Button - Motor
+  * X / ▢ - Front Left
+  * Y / Δ - Front Right
+  * B / O - Rear Right
+  * A / X - Rear Left
+  *                                    The buttons are mapped to match the wheels spatially if you
+  *                                    were to rotate the gamepad 45deg°. x/square is the front left
+  *                    ________        and each button corresponds to the wheel as you go clockwise
+  *                   / ______ \
+  *     ------------.-'   _  '-..+              Front of Bot
+  *              /   _  ( Y )  _  \                  ^
+  *             |  ( X )  _  ( B ) |     Front Left   \    Front Right
+  *        ___  '.      ( A )     /|       Wheel       \      Wheel
+  *      .'    '.    '-._____.-'  .'       (x/▢)        \     (Y/Δ)
+  *     |       |                 |                      \
+  *      '.___.' '.               |          Rear Left    \   Rear Right
+  *               '.             /             Wheel       \    Wheel
+  *                \.          .'              (A/X)        \   (B/O)
+  *                  \________/
+  
+*/
+
+Reverse any motors running in the wrong direction with setDirection(...), and do the same for
+corresponding drive encoders as well.
+
+If you’re using dead wheels, run DeadWheelDirectionDebugger and reverse those encoders accordingly.
+
+6. Connect to the robot wifi
+7. Open [FTC Dashboard](http://192.168.43.1:8080/dash).
+8. Now begin the tuning process.
+> [!Important]
+> The params on the Dashboard ***ARE NOT SAVED***.
+> To save them, go to [MecanumDrive](./TeamCode/src/main/java/org/firstinspires/ftc/teamcode/MecanumDrive.java) and edit the appropriate variables.
 
 ## List of RoadRunner files and directories
 
