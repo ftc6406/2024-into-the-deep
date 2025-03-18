@@ -70,7 +70,8 @@ the [Road Runner Docs](https://rr.brott.dev/docs/v1-0/installation/).
 
 ## Tuning RoadRunner
 
-The following is copied from the [Road Runner Docs](https://rr.brott.dev/docs/v1-0/tuning/).
+The following is copied from the [Road Runner Docs](https://rr.brott.dev/docs/v1-0/tuning/), which
+is blocked by MCPS wifi.
 
 1. Open either MecanumDrive or TankDrive depending on your bot.
 2. Set the logo and USB direction of your IMU using the instructions on this page.
@@ -98,26 +99,26 @@ correct. The op mode uses the following button mappings:
 
 /**
 
-  * Xbox/PS4 Button - Motor
-  * X / ▢ - Front Left
-  * Y / Δ - Front Right
-  * B / O - Rear Right
-  * A / X - Rear Left
-  *                                    The buttons are mapped to match the wheels spatially if you
-  *                                    were to rotate the gamepad 45deg°. x/square is the front left
-  *                    ________        and each button corresponds to the wheel as you go clockwise
-  *                   / ______ \
-  *     ------------.-'   _  '-..+              Front of Bot
-  *              /   _  ( Y )  _  \                  ^
-  *             |  ( X )  _  ( B ) |     Front Left   \    Front Right
-  *        ___  '.      ( A )     /|       Wheel       \      Wheel
-  *      .'    '.    '-._____.-'  .'       (x/▢)        \     (Y/Δ)
-  *     |       |                 |                      \
-  *      '.___.' '.               |          Rear Left    \   Rear Right
-  *               '.             /             Wheel       \    Wheel
-  *                \.          .'              (A/X)        \   (B/O)
-  *                  \________/
-  
+* Xbox/PS4 Button - Motor
+* X / ▢ - Front Left
+* Y / Δ - Front Right
+* B / O - Rear Right
+* A / X - Rear Left
+*                                    The buttons are mapped to match the wheels spatially if you
+*                                    were to rotate the gamepad 45deg°. x/square is the front left
+*                    ________        and each button corresponds to the wheel as you go clockwise
+*                   / ______ \
+*     ------------.-'   _  '-..+              Front of Bot
+*              /   _  ( Y )  _  \                  ^
+*             |  ( X )  _  ( B ) |     Front Left   \    Front Right
+*        ___  '.      ( A )     /|       Wheel       \      Wheel
+*      .'    '.    '-._____.-'  .'       (x/▢)        \     (Y/Δ)
+*     |       |                 |                      \
+*      '.___.' '.               |          Rear Left    \   Rear Right
+*               '.             /             Wheel       \    Wheel
+*                \.          .'              (A/X)        \   (B/O)
+*                  \________/
+
 */
 
 Reverse any motors running in the wrong direction with setDirection(...), and do the same for
@@ -128,9 +129,16 @@ If you’re using dead wheels, run DeadWheelDirectionDebugger and reverse those 
 6. Connect to the robot wifi
 7. Open [FTC Dashboard](http://192.168.43.1:8080/dash).
 8. Now begin the tuning process.
+
 > [!Important]
 > The params on the Dashboard ***ARE NOT SAVED***.
-> To save them, go to [MecanumDrive](./TeamCode/src/main/java/org/firstinspires/ftc/teamcode/MecanumDrive.java) and edit the appropriate variables.
+> To save them, go
+> to [MecanumDrive](./TeamCode/src/main/java/org/firstinspires/ftc/teamcode/MecanumDrive.java) and
+> edit the appropriate variables.
+
+9. Use `ForwardPushTest` to determine `inPerTick`. The program should print the current number of
+   ticks. Push the robot forward by a certain number of inches. inPerTick = inches / (number of ticks)
+10. Use `LateralPushTest` to determine `lateralInPerTick`.
 
 ## List of RoadRunner files and directories
 
